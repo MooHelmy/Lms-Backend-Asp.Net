@@ -5,20 +5,20 @@ using Microsoft.EntityFrameworkCore;
 // ويضيف بس الميثودز الإضافية اللي خاصة بيه (زي CourseRepository في المثال تحت).
 public class GenericRepository<T> : IGeneric<T> where T : class
 {
-    protected readonly DbContext _context;
-    protected readonly DbSet<T> _dbSet;
+    protected readonly DbContext context;
+    protected readonly DbSet<T> dbSet;
 
-    public GenericRepository(DbContext context)
+    public GenericRepository(DbContext dbContext)
     {
-        _context = context;
-        _dbSet = context.Set<T>();
+        context = dbContext;
+        dbSet = dbContext.Set<T>();
     }
 
     // بترجع كل الصفوف، وبتطبق أي Includes اتبعتلها عشان تجيب الـ Navigation Properties
     // (زي Instructor, Category) من غير ما تكتب Include بره الـ Repository كل مرة.
     public async Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includes)
     {
-        IQueryable<T> query = _dbSet;
+        IQueryable<T> query = dbSet;
 
         foreach (var include in includes)
             query = query.Include(include);
@@ -30,7 +30,7 @@ public class GenericRepository<T> : IGeneric<T> where T : class
     // (زي Sections بتاعت الكورس) في نفس الاستعلام.
     public async Task<T?> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes)
     {
-        IQueryable<T> query = _dbSet;
+        IQueryable<T> query = dbSet;
 
         foreach (var include in includes)
             query = query.Include(include);
@@ -44,27 +44,27 @@ public class GenericRepository<T> : IGeneric<T> where T : class
     // وبترجع عدد الصفوف المتأثرة (المفروض تبقى 1 لو نجحت).
     public async Task<int> CreateAsync(T entity)
     {
-        await _dbSet.AddAsync(entity);
-        return await _context.SaveChangesAsync();
+        await dbSet.AddAsync(entity);
+        return await context.SaveChangesAsync();
     }
 
     // بتعلّم الصف إنه اتعدل وبتحفظ على طول.
     public async Task<int> UpdateAsync(T entity)
     {
-        _dbSet.Update(entity);
-        return await _context.SaveChangesAsync();
+        dbSet.Update(entity);
+        return await context.SaveChangesAsync();
     }
 
     // بتدور على الصف بالـ Id الأول، ولو لقته بتحذفه وتحفظ على طول.
     // لو مش موجود بترجع 0 (معنى إن مفيش صفوف اتأثرت).
     public async Task<int> DeleteAsync(int id)
     {
-        var entity = await _dbSet.FindAsync(id);
+        var entity = await dbSet.FindAsync(id);
         if (entity is null)
             return 0;
 
-        _dbSet.Remove(entity);
-        return await _context.SaveChangesAsync();
+        dbSet.Remove(entity);
+        return await context.SaveChangesAsync();
     }
 
     // ------ الميثودز الجديدة المضافة ------
@@ -73,7 +73,7 @@ public class GenericRepository<T> : IGeneric<T> where T : class
     // مثال: FindAsync(c => c.CategoryId == 3, c => c.Instructor)
     public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
     {
-        IQueryable<T> query = _dbSet;
+        IQueryable<T> query = dbSet;
 
         foreach (var include in includes)
             query = query.Include(include);
@@ -85,7 +85,7 @@ public class GenericRepository<T> : IGeneric<T> where T : class
     // استخدمها لما تكون متأكد إن الشرط بيرجع نتيجة فريدة (زي البحث بالإيميل)
     public async Task<T?> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
     {
-        IQueryable<T> query = _dbSet;
+        IQueryable<T> query = dbSet;
 
         foreach (var include in includes)
             query = query.Include(include);
@@ -97,14 +97,14 @@ public class GenericRepository<T> : IGeneric<T> where T : class
     // بنفسك في الـ Service (زي الفلترة والـ Pagination في صفحة الكورسات)
     public IQueryable<T> Query()
     {
-        return _dbSet.AsQueryable();
+        return dbSet.AsQueryable();
     }
 
     // بترجع true/false بس - أسرع من FindAsync لو مش محتاج البيانات نفسها
     // (مثال: هل الطالب Enrolled في الكورس ده قبل كده؟)
     public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
     {
-        return await _dbSet.AnyAsync(predicate);
+        return await dbSet.AnyAsync(predicate);
     }
 
     // بترجع عدد الصفوف - كله لو من غير شرط، أو حسب شرط معين
@@ -112,7 +112,7 @@ public class GenericRepository<T> : IGeneric<T> where T : class
     public async Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null)
     {
         return predicate is null
-            ? await _dbSet.CountAsync()
-            : await _dbSet.CountAsync(predicate);
+            ? await dbSet.CountAsync()
+            : await dbSet.CountAsync(predicate);
     }
 }
