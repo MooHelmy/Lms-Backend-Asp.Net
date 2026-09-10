@@ -4,24 +4,6 @@ using Microsoft.EntityFrameworkCore;
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : DbContext(options)
 {
-    // ---------- DbSets ----------
-    public DbSet<User> Users { get; set; }
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<Course> Courses { get; set; }
-    public DbSet<Section> Sections { get; set; }
-    public DbSet<Lesson> Lessons { get; set; }
-    public DbSet<Enrollment> Enrollments { get; set; }
-    public DbSet<LessonProgress> LessonProgresses { get; set; }
-    public DbSet<Exam> Exams { get; set; }
-    public DbSet<Question> Questions { get; set; }
-    public DbSet<Answer> Answers { get; set; }
-    public DbSet<ExamAttempt> ExamAttempts { get; set; }
-    public DbSet<ExamAttemptAnswer> ExamAttemptAnswers { get; set; }
-    public DbSet<Certificate> Certificates { get; set; }
-    public DbSet<SubscriptionPlan> SubscriptionPlans { get; set; }
-    public DbSet<Subscription> Subscriptions { get; set; }
-    public DbSet<Review> Reviews { get; set; }
-    public DbSet<Notification> Notifications { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -254,5 +236,27 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                   .HasForeignKey(n => n.UserId)
                   .OnDelete(DeleteBehavior.Cascade);
         });
+
+
+
     }
+    // ---------- DbSets ----------
+    public DbSet<User> Users { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Course> Courses { get; set; }
+    public DbSet<Section> Sections { get; set; }
+    public DbSet<Lesson> Lessons { get; set; }
+    public DbSet<Enrollment> Enrollments { get; set; }
+    public DbSet<LessonProgress> LessonProgresses { get; set; }
+    public DbSet<Exam> Exams { get; set; }
+    public DbSet<Question> Questions { get; set; }
+    public DbSet<Answer> Answers { get; set; }
+    public DbSet<ExamAttempt> ExamAttempts { get; set; }
+    public DbSet<ExamAttemptAnswer> ExamAttemptAnswers { get; set; }
+    public DbSet<Certificate> Certificates { get; set; }
+    public DbSet<SubscriptionPlan> SubscriptionPlans { get; set; }
+    public DbSet<Subscription> Subscriptions { get; set; }
+    public DbSet<Review> Reviews { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
+
 }
