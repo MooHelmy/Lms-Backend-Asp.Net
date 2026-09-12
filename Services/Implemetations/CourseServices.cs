@@ -1,81 +1,61 @@
-using System.Linq.Expressions;
 using LMS.Application.DTOs.Courses;
 using LMS.Domain.Entities;
 
-public class CourseServices : ICourseRepository
+public class CourseServices(ICourseRepository courseRepository) : ICourseServices
 {
-    public Task<int> CountAsync(Expression<Func<Course, bool>>? predicate = null)
+
+    public async Task<ServicesResponse<IEnumerable<Course>>> GetCoursesByInstructorAsync(int instructorId)
     {
-        throw new NotImplementedException();
+        var courses = await courseRepository.GetCoursesByInstructorAsync(instructorId);
+        if (courses == null || !courses.Any())
+        {
+            return new ServicesResponse<IEnumerable<Course>>(false, "No courses found for the instructor.");
+        }
+        return new ServicesResponse<IEnumerable<Course>>(true, "Courses found for the instructor.", courses);
     }
 
-    public Task<int> CreateAsync(Course entity)
+    public async Task<ServicesResponse<CourseDetailsDto?>> GetCourseWithDetailsAsync(int courseId)
     {
-        throw new NotImplementedException();
+        var course = await courseRepository.GetCourseWithDetailsAsync(courseId);
+        if (course == null)
+        {
+            return new ServicesResponse<CourseDetailsDto?>(false, "No course found for the given id.");
+        }
+        return new ServicesResponse<CourseDetailsDto?>(true, "Course found for the given id.", course);
     }
 
-    public Task<int> DeleteAsync(int id)
+    public async Task<ServicesResponse<int>> GetPublishedCoursesCountAsync()
     {
-        throw new NotImplementedException();
+        var count = await courseRepository.GetPublishedCoursesCountAsync();
+        if (count == 0)
+        {
+            return new ServicesResponse<int>(false, "No courses found.", count);
+        }
+        return new ServicesResponse<int>(true, "Courses found.", count);
     }
 
-    public Task<bool> ExistsAsync(Expression<Func<Course, bool>> predicate)
+    public async Task<ServicesResponse<IEnumerable<Course>>> GetTopSellingCoursesAsync(int count)
     {
-        throw new NotImplementedException();
+        var courses = await courseRepository.GetTopSellingCoursesAsync(count);
+        if (courses == null || !courses.Any())
+        {
+            return new ServicesResponse<IEnumerable<Course>>(false, "No courses found.", courses);
+        }
+        return new ServicesResponse<IEnumerable<Course>>(true, "Courses found.", courses);
     }
 
-    public Task<IEnumerable<Course>> FindAsync(Expression<Func<Course, bool>> predicate, params Expression<Func<Course, object>>[] includes)
+    public async Task<ServicesResponse<bool>> IsOwnedByInstructorAsync(int courseId, int instructorId)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<Course>> GetAllAsync(params Expression<Func<Course, object>>[] includes)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Course?> GetByIdAsync(int id, params Expression<Func<Course, object>>[] includes)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<Course>> GetCoursesByInstructorAsync(int instructorId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<CourseDetailsDto?> GetCourseWithDetailsAsync(int courseId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<int> GetPublishedCoursesCountAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<Course>> GetTopSellingCoursesAsync(int count)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> IsOwnedByInstructorAsync(int courseId, int instructorId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IQueryable<Course> Query()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Course?> SingleOrDefaultAsync(Expression<Func<Course, bool>> predicate, params Expression<Func<Course, object>>[] includes)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<int> UpdateAsync(Course entity)
-    {
-        throw new NotImplementedException();
+        var course = await courseRepository.GetByIdAsync(courseId);
+        if (course == null)
+        {
+            return new ServicesResponse<bool>(false, "No course found for the given id.");
+        }
+        var isOwned = await courseRepository.IsOwnedByInstructorAsync(courseId, instructorId);
+        if (!isOwned)
+        {
+            return new ServicesResponse<bool>(false, "Ownership status not found.");
+        }
+        return new ServicesResponse<bool>(true, "Ownership status retrieved.", isOwned);
     }
 }
