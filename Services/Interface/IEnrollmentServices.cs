@@ -2,9 +2,9 @@ using LMS.Domain.Entities;
 
 public interface IEnrollmentServices
 {
-    Task<ServicesResponse> IsEnrolledAsync(int studentId, int courseId);
+    Task<ServicesResponse<bool>> IsEnrolledAsync(int studentId, int courseId);
     Task<ServicesResponse<IEnumerable<Enrollment>>> GetEnrollmentsByStudentAsync(int studentId);
     Task<ServicesResponse<IEnumerable<Enrollment>>> GetEnrollmentsByCourseAsync(int courseId);
-    Task<ServicesResponse> GetActiveEnrollmentsCountAsync(int courseId);
-    Task<ServicesResponse> MarkAsCompletedAsync(int enrollmentId);
+    Task<ServicesResponse<int>> GetActiveEnrollmentsCountAsync(int courseId);
+    Task<ServicesResponse<bool>> MarkAsCompletedAsync(int enrollmentId);
 }
