@@ -1,3 +1,4 @@
+using LMS.Application.DTOs.Common;
 using LMS.Application.DTOs.Courses;
 using LMS.Application.Mappers;
 using LMS.Domain.Entities;
@@ -111,5 +112,11 @@ public class CourseServices(ICourseRepository courseRepository) : ICourseService
             return new ServicesResponse<bool>(false, "Ownership status not found.");
         }
         return new ServicesResponse<bool>(true, "Ownership status retrieved.", isOwned);
+    }
+
+    public async Task<ServicesResponse<PagedResult<CourseListItemDto>>> GetCoursesAsync(CourseFilterDto filter)
+    {
+        var result = await courseRepository.GetCoursesAsync(filter);
+        return new ServicesResponse<PagedResult<CourseListItemDto>>(true, "Courses retrieved successfully.", result);
     }
 }

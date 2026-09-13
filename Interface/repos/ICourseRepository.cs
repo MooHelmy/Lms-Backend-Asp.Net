@@ -2,6 +2,7 @@
 // وبيضيف بس اللي خاص بالكورس تحديدًا.
 
 
+using LMS.Application.DTOs.Common;
 using LMS.Application.DTOs.Courses;
 using LMS.Domain.Entities;
 
@@ -12,4 +13,5 @@ public interface ICourseRepository : IGeneric<Course>
     Task<IEnumerable<Course>> GetTopSellingCoursesAsync(int count);
     Task<bool> IsOwnedByInstructorAsync(int courseId, int instructorId);
     Task<int> GetPublishedCoursesCountAsync();
+    Task<PagedResult<CourseListItemDto>> GetCoursesAsync(CourseFilterDto filter);
 }
