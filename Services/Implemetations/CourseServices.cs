@@ -1,8 +1,62 @@
 using LMS.Application.DTOs.Courses;
+using LMS.Application.Mappers;
 using LMS.Domain.Entities;
 
 public class CourseServices(ICourseRepository courseRepository) : ICourseServices
 {
+    // بينشئ كورس جديد للمدرس الحالي، ويرجع تفاصيله كاملة بعد الإنشاء
+    public async Task<ServicesResponse<CourseDetailsDto>> CreateCourseAsync(int instructorId, CourseCreateDto dto)
+    {
+        var course = dto.CourseCreateToEntityMapper(instructorId);
+        await courseRepository.CreateAsync(course);
+
+        var details = await courseRepository.GetCourseWithDetailsAsync(course.Id);
+        if (details is null)
+        {
+            return new ServicesResponse<CourseDetailsDto>(false, "Course created but details could not be retrieved.");
+        }
+
+        return new ServicesResponse<CourseDetailsDto>(true, "Course created successfully.", details);
+    }
+
+    // بيعدّل الكورس، وبيتأكد الأول إن المدرس ده هو مالك الكورس
+    public async Task<ServicesResponse<bool>> UpdateCourseAsync(int courseId, int instructorId, CourseUpdateDto dto)
+    {
+        var course = await courseRepository.GetByIdAsync(courseId);
+        if (course is null)
+        {
+            return new ServicesResponse<bool>(false, "Course not found.");
+        }
+
+        if (course.InstructorId != instructorId)
+        {
+            return new ServicesResponse<bool>(false, "You do not own this course.");
+        }
+
+        course.CourseUpdateMapper(dto);
+        await courseRepository.UpdateAsync(course);
+
+        return new ServicesResponse<bool>(true, "Course updated successfully.", true);
+    }
+
+    // بيحذف الكورس، بنفس تأكيد الملكية
+    public async Task<ServicesResponse<bool>> DeleteCourseAsync(int courseId, int instructorId)
+    {
+        var course = await courseRepository.GetByIdAsync(courseId);
+        if (course is null)
+        {
+            return new ServicesResponse<bool>(false, "Course not found.");
+        }
+
+        if (course.InstructorId != instructorId)
+        {
+            return new ServicesResponse<bool>(false, "You do not own this course.");
+        }
+
+        await courseRepository.DeleteAsync(courseId);
+        return new ServicesResponse<bool>(true, "Course deleted successfully.", true);
+    }
+
 
     public async Task<ServicesResponse<IEnumerable<Course>>> GetCoursesByInstructorAsync(int instructorId)
     {

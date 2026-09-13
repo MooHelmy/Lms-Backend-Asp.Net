@@ -1,7 +1,37 @@
+using LMS.Application.DTOs.Reviews;
+using LMS.Application.Mappers;
 using LMS.Domain.Entities;
 
-public class ReviewServices(IReviewRepository reviewRepository) : IReviewServices
+// محتاجين IEnrollmentRepository عشان نتأكد إن الطالب مسجل في الكورس قبل ما يسمحله يقيّمه
+public class ReviewServices(IReviewRepository reviewRepository, IEnrollmentRepository enrollmentRepository) : IReviewServices
 {
+    // بيضيف تقييم جديد، بعد التأكد إن الطالب مسجل في الكورس ومقيّمهوش قبل كده
+    public async Task<ServicesResponse<Review>> AddReviewAsync(int studentId, ReviewCreateDto dto)
+    {
+        var isEnrolled = await enrollmentRepository.IsEnrolledAsync(studentId, dto.CourseId);
+        if (!isEnrolled)
+        {
+            return new ServicesResponse<Review>(false, "You must be enrolled to review this course.");
+        }
+
+        var hasReviewed = await reviewRepository.HasReviewedAsync(studentId, dto.CourseId);
+        if (hasReviewed)
+        {
+            return new ServicesResponse<Review>(false, "You already reviewed this course.");
+        }
+
+        if (dto.Rating is < 1 or > 5)
+        {
+            return new ServicesResponse<Review>(false, "Rating must be between 1 and 5.");
+        }
+
+        var review = dto.ReviewCreateToEntityMapper(studentId);
+        await reviewRepository.CreateAsync(review);
+
+        return new ServicesResponse<Review>(true, "Review added successfully.", review);
+    }
+
+
     public async Task<ServicesResponse<double>> GetAverageRatingAsync(int courseId)
     {
         var averageRating = await reviewRepository.GetAverageRatingAsync(courseId);

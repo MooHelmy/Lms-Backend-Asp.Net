@@ -1,7 +1,50 @@
+using LMS.Application.DTOs.Enrollments;
+using LMS.Application.Mappers;
 using LMS.Domain.Entities;
 
-public class EnrollmentServices(IEnrollmentRepository enrollmentRepository) : IEnrollmentServices
+// محتاجين ICourseRepository عشان نتأكد إن الكورس موجود أصلًا قبل تسجيل الطالب فيه
+public class EnrollmentServices(IEnrollmentRepository enrollmentRepository, ICourseRepository courseRepository) : IEnrollmentServices
 {
+    // بيسجل الطالب في كورس، بعد التأكد إن الكورس موجود وإنه مش مسجل فيه أصلًا
+    public async Task<ServicesResponse<EnrollmentResponseDto>> EnrollAsync(int studentId, EnrollDto dto)
+    {
+        var course = await courseRepository.GetByIdAsync(dto.CourseId);
+        if (course is null)
+        {
+            return new ServicesResponse<EnrollmentResponseDto>(false, "Course not found.");
+        }
+
+        var alreadyEnrolled = await enrollmentRepository.IsEnrolledAsync(studentId, dto.CourseId);
+        if (alreadyEnrolled)
+        {
+            return new ServicesResponse<EnrollmentResponseDto>(false, "Already enrolled in this course.");
+        }
+
+        var enrollment = dto.EnrollmentCreateToEntityMapper(studentId);
+        await enrollmentRepository.CreateAsync(enrollment);
+        enrollment.Course = course;
+
+        return new ServicesResponse<EnrollmentResponseDto>(true, "Enrolled successfully.", enrollment.EnrollmentToResponseMapper());
+    }
+
+    // بيلغي تسجيل الطالب في كورس معين (بيغيّر الحالة لـ Cancelled بدل الحذف الفعلي)
+    public async Task<ServicesResponse<bool>> CancelEnrollmentAsync(int studentId, int courseId)
+    {
+        var enrollment = await enrollmentRepository.SingleOrDefaultAsync(
+            e => e.StudentId == studentId && e.CourseId == courseId);
+
+        if (enrollment is null)
+        {
+            return new ServicesResponse<bool>(false, "Enrollment not found.");
+        }
+
+        enrollment.Status = EnrollmentStatus.Cancelled;
+        await enrollmentRepository.UpdateAsync(enrollment);
+
+        return new ServicesResponse<bool>(true, "Enrollment cancelled successfully.", true);
+    }
+
+
     public async Task<ServicesResponse<int>> GetActiveEnrollmentsCountAsync(int courseId)
     {
         var count = await enrollmentRepository.GetActiveEnrollmentsCountAsync(courseId);

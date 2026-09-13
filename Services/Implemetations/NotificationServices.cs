@@ -1,7 +1,21 @@
+using LMS.Application.DTOs.Notifications;
 using LMS.Domain.Entities;
 
 public class NotificationServices(INotificationRepository notificationRepository) : INotificationServices
 {
+    public async Task<ServicesResponse<int>> AddNotificationAsync(CreateNotificationDto dto)
+    {
+        var notification = new Notification
+        {
+            UserId = dto.UserId,
+            Title = dto.Title,
+            Message = dto.Message,
+            IsRead = false
+        };
+        await notificationRepository.CreateAsync(notification);
+        return new ServicesResponse<int>(true, "Notification added successfully.", notification.Id);
+    }
+
     public async Task<ServicesResponse<IEnumerable<Notification>>> GetByUserAsync(int userId, bool unreadOnly = false)
     {
         var notifications = await notificationRepository.GetByUserAsync(userId, unreadOnly);
