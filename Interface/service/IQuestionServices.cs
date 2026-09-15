@@ -7,6 +7,6 @@ public interface IQuestionServices
     Task<ServicesResponse<int>> GetTotalPointsAsync(int examId);
     Task<ServicesResponse<Answer?>> GetCorrectAnswerAsync(int questionId);
 
-    Task<ServicesResponse<Question>> AddQuestionAsync(int examId, int instructorId, QuestionCreateDto dto);
-    Task<ServicesResponse<bool>> DeleteQuestionAsync(int questionId, int instructorId);
+    Task<ServicesResponse<Question>> AddQuestionAsync(int examId, String instructorId, QuestionCreateDto dto);
+    Task<ServicesResponse<bool>> DeleteQuestionAsync(int questionId, String instructorId);
 }

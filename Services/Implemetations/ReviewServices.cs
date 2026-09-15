@@ -6,7 +6,7 @@ using LMS.Domain.Entities;
 public class ReviewServices(IReviewRepository reviewRepository, IEnrollmentRepository enrollmentRepository) : IReviewServices
 {
     // بيضيف تقييم جديد، بعد التأكد إن الطالب مسجل في الكورس ومقيّمهوش قبل كده
-    public async Task<ServicesResponse<Review>> AddReviewAsync(int studentId, ReviewCreateDto dto)
+    public async Task<ServicesResponse<Review>> AddReviewAsync(String studentId, ReviewCreateDto dto)
     {
         var isEnrolled = await enrollmentRepository.IsEnrolledAsync(studentId, dto.CourseId);
         if (!isEnrolled)
@@ -48,7 +48,7 @@ public class ReviewServices(IReviewRepository reviewRepository, IEnrollmentRepos
         return new ServicesResponse<IEnumerable<Review>>(true, "Reviews found for the specified course.", reviews);
     }
 
-    public async Task<ServicesResponse<bool>> HasReviewedAsync(int studentId, int courseId)
+    public async Task<ServicesResponse<bool>> HasReviewedAsync(String studentId, int courseId)
     {
         var hasReviewed = await reviewRepository.HasReviewedAsync(studentId, courseId);
         return new ServicesResponse<bool>(true, "Review status determined.", hasReviewed);

@@ -8,7 +8,7 @@ public class CertificateController(ICertificateServices certificateServices) : B
 {
     [HttpPost("generate")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> GenerateCertificate(int studentId, int courseId)
+    public async Task<IActionResult> GenerateCertificate(String studentId, int courseId)
     {
         var result = await certificateServices.GenerateCertificateAsync(studentId, courseId);
         return HandleResponse(result);
@@ -32,14 +32,14 @@ public class CertificateController(ICertificateServices certificateServices) : B
 
     [HttpGet("by-student")]
     [Authorize(Roles = "Student, Admin")]
-    public async Task<IActionResult> GetCertificatesByStudent(int studentId)
+    public async Task<IActionResult> GetCertificatesByStudent(String studentId)
     {
         var result = await certificateServices.GetCertificatesByStudentAsync(studentId);
         return HandleResponse(result);
     }
     [HttpGet("exists")]
     [Authorize(Roles = "Student, Admin")]
-    public async Task<IActionResult> ExistsForStudentCourse(int studentId, int courseId)
+    public async Task<IActionResult> ExistsForStudentCourse(String studentId, int courseId)
     {
         var result = await certificateServices.ExistsForStudentCourseAsync(studentId, courseId);
         return HandleResponse(result);

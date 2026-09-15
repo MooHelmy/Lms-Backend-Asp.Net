@@ -12,7 +12,7 @@ namespace LMS.Application.DTOs.Notifications
 
     public class CreateNotificationDto
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Message { get; set; } = string.Empty;
         public Domain.Entities.NotificationType Type { get; set; }

@@ -21,7 +21,7 @@ public class SectionRepository(ApplicationDbContext context) : GenericRepository
                    .ToListAsync();
     }
 
-    public async Task<bool> IsOwnedByInstructorAsync(int sectionId, int instructorId)
+    public async Task<bool> IsOwnedByInstructorAsync(int sectionId, String instructorId)
     {
         return await dbSet.Include(s => s.Course)
             .AnyAsync(s => s.Id == sectionId && s.Course.InstructorId == instructorId);

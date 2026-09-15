@@ -6,7 +6,7 @@ using LMS.Domain.Entities;
 public class SectionServices(ISectionRepository sectionRepository, ICourseRepository courseRepository) : ISectionServices
 {
     // بيضيف Section جديد، وبيتأكد الأول إن المدرس فعلًا مالك الكورس اللي هيتضاف له
-    public async Task<ServicesResponse<SectionResponseDto>> AddSectionAsync(int instructorId, SectionCreateDto dto)
+    public async Task<ServicesResponse<SectionResponseDto>> AddSectionAsync(String instructorId, SectionCreateDto dto)
     {
         var isOwned = await courseRepository.IsOwnedByInstructorAsync(dto.CourseId, instructorId);
         if (!isOwned)
@@ -20,7 +20,7 @@ public class SectionServices(ISectionRepository sectionRepository, ICourseReposi
         return new ServicesResponse<SectionResponseDto>(true, "Section created successfully.", section.SectionToResponseMapper());
     }
 
-    public async Task<ServicesResponse<bool>> UpdateSectionAsync(int sectionId, int instructorId, SectionUpdateDto dto)
+    public async Task<ServicesResponse<bool>> UpdateSectionAsync(int sectionId, String instructorId, SectionUpdateDto dto)
     {
         var isOwned = await sectionRepository.IsOwnedByInstructorAsync(sectionId, instructorId);
         if (!isOwned)
@@ -40,7 +40,7 @@ public class SectionServices(ISectionRepository sectionRepository, ICourseReposi
         return new ServicesResponse<bool>(true, "Section updated successfully.", true);
     }
 
-    public async Task<ServicesResponse<bool>> DeleteSectionAsync(int sectionId, int instructorId)
+    public async Task<ServicesResponse<bool>> DeleteSectionAsync(int sectionId, String instructorId)
     {
         var isOwned = await sectionRepository.IsOwnedByInstructorAsync(sectionId, instructorId);
         if (!isOwned)
@@ -69,7 +69,7 @@ public class SectionServices(ISectionRepository sectionRepository, ICourseReposi
         return new ServicesResponse<IEnumerable<Section>>(true, "Sections found for the specified course.", sections);
     }
 
-    public async Task<ServicesResponse<bool>> IsOwnedByInstructorAsync(int sectionId, int instructorId)
+    public async Task<ServicesResponse<bool>> IsOwnedByInstructorAsync(int sectionId, String instructorId)
     {
         var isOwned = await sectionRepository.IsOwnedByInstructorAsync(sectionId, instructorId);
         return new ServicesResponse<bool>(true, "Ownership check completed.", isOwned);

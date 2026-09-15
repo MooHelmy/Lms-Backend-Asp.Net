@@ -10,7 +10,7 @@ public class ExamAttemptServices(
     IEnrollmentRepository enrollmentRepository) : IExamAttemptServices
 {
     // بيبدأ محاولة امتحان جديدة، بعد التأكد إن الطالب مسجل في كورس الامتحان ده
-    public async Task<ServicesResponse<ExamAttemptResultDto>> StartAttemptAsync(int studentId, StartExamAttemptDto dto)
+    public async Task<ServicesResponse<ExamAttemptResultDto>> StartAttemptAsync(String studentId, StartExamAttemptDto dto)
     {
         var exam = await examRepository.GetByIdAsync(dto.ExamId);
         if (exam is null)
@@ -37,7 +37,7 @@ public class ExamAttemptServices(
     }
 
     // بيسلّم إجابات المحاولة، بيصحح تلقائيًا، وبيحسب النسبة المئوية وهل نجح ولا لأ
-    public async Task<ServicesResponse<ExamAttemptResultDto>> SubmitAttemptAsync(int studentId, SubmitExamAttemptDto dto)
+    public async Task<ServicesResponse<ExamAttemptResultDto>> SubmitAttemptAsync(String studentId, SubmitExamAttemptDto dto)
     {
         var attempt = await examAttemptRepository.GetByIdAsync(dto.AttemptId);
         if (attempt is null)
@@ -96,7 +96,7 @@ public class ExamAttemptServices(
     }
 
 
-    public async Task<ServicesResponse<IEnumerable<ExamAttempt>>> GetAttemptsByStudentAsync(int studentId, int examId)
+    public async Task<ServicesResponse<IEnumerable<ExamAttempt>>> GetAttemptsByStudentAsync(String studentId, int examId)
     {
         var attempts = await examAttemptRepository.GetAttemptsByStudentAsync(studentId, examId);
         if (attempts == null || !attempts.Any())
@@ -106,7 +106,7 @@ public class ExamAttemptServices(
         return new ServicesResponse<IEnumerable<ExamAttempt>>(true, "Attempts found for the given student id and exam id.", attempts);
     }
 
-    public async Task<ServicesResponse<int>> GetAttemptsCountAsync(int studentId, int examId)
+    public async Task<ServicesResponse<int>> GetAttemptsCountAsync(String studentId, int examId)
     {
         var count = await examAttemptRepository.GetAttemptsCountAsync(studentId, examId);
         if (count == 0)
@@ -126,7 +126,7 @@ public class ExamAttemptServices(
         return new ServicesResponse<ExamAttempt?>(true, "Attempt found for the given attempt id.", attempt);
     }
 
-    public async Task<ServicesResponse<ExamAttempt?>> GetLatestAttemptAsync(int studentId, int examId)
+    public async Task<ServicesResponse<ExamAttempt?>> GetLatestAttemptAsync(String studentId, int examId)
     {
         var attempt = await examAttemptRepository.GetLatestAttemptAsync(studentId, examId);
         if (attempt == null)
@@ -136,7 +136,7 @@ public class ExamAttemptServices(
         return new ServicesResponse<ExamAttempt?>(true, "Attempt found for the given student id and exam id.", attempt);
     }
 
-    public async Task<ServicesResponse<bool>> HasPassedAsync(int studentId, int examId)
+    public async Task<ServicesResponse<bool>> HasPassedAsync(String studentId, int examId)
     {
         var passed = await examAttemptRepository.HasPassedAsync(studentId, examId);
         if (!passed)

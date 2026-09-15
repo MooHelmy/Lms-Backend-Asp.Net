@@ -6,7 +6,7 @@ using LMS.Domain.Entities;
 public class ExamServices(IExamRepository examRepository, ICourseRepository courseRepository) : IExamServices
 {
     // بينشئ امتحان جديد لكورس، بعد التأكد إن المدرس مالك الكورس ده
-    public async Task<ServicesResponse<Exam>> CreateExamAsync(int instructorId, ExamCreateDto dto)
+    public async Task<ServicesResponse<Exam>> CreateExamAsync(String instructorId, ExamCreateDto dto)
     {
         var isOwned = await courseRepository.IsOwnedByInstructorAsync(dto.CourseId, instructorId);
         if (!isOwned)
@@ -21,7 +21,7 @@ public class ExamServices(IExamRepository examRepository, ICourseRepository cour
     }
 
     // بيعدّل الامتحان بعد التأكد من الملكية عن طريق الكورس المرتبط بيه
-    public async Task<ServicesResponse<bool>> UpdateExamAsync(int examId, int instructorId, ExamUpdateDto dto)
+    public async Task<ServicesResponse<bool>> UpdateExamAsync(int examId, String instructorId, ExamUpdateDto dto)
     {
         var isOwned = await examRepository.IsOwnedByInstructorAsync(examId, instructorId);
         if (!isOwned)
@@ -42,7 +42,7 @@ public class ExamServices(IExamRepository examRepository, ICourseRepository cour
     }
 
     // بيحذف الامتحان بنفس تأكيد الملكية
-    public async Task<ServicesResponse<bool>> DeleteExamAsync(int examId, int instructorId)
+    public async Task<ServicesResponse<bool>> DeleteExamAsync(int examId, String instructorId)
     {
         var isOwned = await examRepository.IsOwnedByInstructorAsync(examId, instructorId);
         if (!isOwned)
@@ -75,7 +75,7 @@ public class ExamServices(IExamRepository examRepository, ICourseRepository cour
         return new ServicesResponse<Exam?>(true, "Exam found.", exam);
     }
 
-    public async Task<ServicesResponse> IsOwnedByInstructorAsync(int examId, int instructorId)
+    public async Task<ServicesResponse> IsOwnedByInstructorAsync(int examId, String instructorId)
     {
         var isOwned = await examRepository.IsOwnedByInstructorAsync(examId, instructorId);
         if (!isOwned)

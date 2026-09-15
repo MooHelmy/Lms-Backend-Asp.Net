@@ -6,7 +6,7 @@ using LMS.Domain.Entities;
 public class CourseServices(ICourseRepository courseRepository) : ICourseServices
 {
     // بينشئ كورس جديد للمدرس الحالي، ويرجع تفاصيله كاملة بعد الإنشاء
-    public async Task<ServicesResponse<CourseDetailsDto>> CreateCourseAsync(int instructorId, CourseCreateDto dto)
+    public async Task<ServicesResponse<CourseDetailsDto>> CreateCourseAsync(String instructorId, CourseCreateDto dto)
     {
         var course = dto.CourseCreateToEntityMapper(instructorId);
         await courseRepository.CreateAsync(course);
@@ -21,7 +21,7 @@ public class CourseServices(ICourseRepository courseRepository) : ICourseService
     }
 
     // بيعدّل الكورس، وبيتأكد الأول إن المدرس ده هو مالك الكورس
-    public async Task<ServicesResponse<bool>> UpdateCourseAsync(int courseId, int instructorId, CourseUpdateDto dto)
+    public async Task<ServicesResponse<bool>> UpdateCourseAsync(int courseId, String instructorId, CourseUpdateDto dto)
     {
         var course = await courseRepository.GetByIdAsync(courseId);
         if (course is null)
@@ -41,7 +41,7 @@ public class CourseServices(ICourseRepository courseRepository) : ICourseService
     }
 
     // بيحذف الكورس، بنفس تأكيد الملكية
-    public async Task<ServicesResponse<bool>> DeleteCourseAsync(int courseId, int instructorId)
+    public async Task<ServicesResponse<bool>> DeleteCourseAsync(int courseId, String instructorId)
     {
         var course = await courseRepository.GetByIdAsync(courseId);
         if (course is null)
@@ -59,7 +59,7 @@ public class CourseServices(ICourseRepository courseRepository) : ICourseService
     }
 
 
-    public async Task<ServicesResponse<IEnumerable<Course>>> GetCoursesByInstructorAsync(int instructorId)
+    public async Task<ServicesResponse<IEnumerable<Course>>> GetCoursesByInstructorAsync(String instructorId)
     {
         var courses = await courseRepository.GetCoursesByInstructorAsync(instructorId);
         if (courses == null || !courses.Any())
@@ -99,7 +99,7 @@ public class CourseServices(ICourseRepository courseRepository) : ICourseService
         return new ServicesResponse<IEnumerable<Course>>(true, "Courses found.", courses);
     }
 
-    public async Task<ServicesResponse<bool>> IsOwnedByInstructorAsync(int courseId, int instructorId)
+    public async Task<ServicesResponse<bool>> IsOwnedByInstructorAsync(int courseId, String instructorId)
     {
         var course = await courseRepository.GetByIdAsync(courseId);
         if (course == null)

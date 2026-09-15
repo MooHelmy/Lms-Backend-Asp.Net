@@ -28,7 +28,7 @@ public class ExamsController(IExamServices examServices) : BaseApiController
     // GET /api/exams/5/is-owned/3 - تأكيد ملكية الامتحان لمدرس معين
     [Authorize(Roles = "Instructor")]
     [HttpGet("{examId:int}/is-owned/{instructorId:int}")]
-    public async Task<IActionResult> IsOwnedByInstructor(int examId, int instructorId)
+    public async Task<IActionResult> IsOwnedByInstructor(int examId, String instructorId)
     {
         var result = await examServices.IsOwnedByInstructorAsync(examId, instructorId);
         return HandleResponse(result);
@@ -37,27 +37,27 @@ public class ExamsController(IExamServices examServices) : BaseApiController
     // POST /api/exams - إنشاء امتحان جديد لكورس، للـ Instructor بس
     [Authorize(Roles = "Instructor")]
     [HttpPost]
-    public async Task<IActionResult> CreateExam(ExamCreateDto dto)
+    public async Task<IActionResult> CreateExam(string instructorId, ExamCreateDto dto)
     {
-        var result = await examServices.CreateExamAsync(CurrentUserId, dto);
+        var result = await examServices.CreateExamAsync(instructorId, dto);
         return HandleResponse(result);
     }
 
     // PUT /api/exams/5
     [Authorize(Roles = "Instructor")]
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> UpdateExam(int id, ExamUpdateDto dto)
+    public async Task<IActionResult> UpdateExam(int id, string instructorId, ExamUpdateDto dto)
     {
-        var result = await examServices.UpdateExamAsync(id, CurrentUserId, dto);
+        var result = await examServices.UpdateExamAsync(id, instructorId, dto);
         return HandleResponse(result);
     }
 
     // DELETE /api/exams/5
     [Authorize(Roles = "Instructor")]
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteExam(int id)
+    public async Task<IActionResult> DeleteExam(int id, string instructorId)
     {
-        var result = await examServices.DeleteExamAsync(id, CurrentUserId);
+        var result = await examServices.DeleteExamAsync(id, instructorId);
         return HandleResponse(result);
     }
 }

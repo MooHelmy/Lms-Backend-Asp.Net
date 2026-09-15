@@ -5,7 +5,7 @@ using LMS.Domain.Entities;
 public class CertificateServices(ICertificateRepository certificateRepository) : ICertificateServices
 {
     // بيصدر شهادة جديدة للطالب على الكورس، أو يرجع الشهادة الموجودة لو صدرت قبل كده (منع تكرار)
-    public async Task<ServicesResponse<Certificate>> GenerateCertificateAsync(int studentId, int courseId)
+    public async Task<ServicesResponse<Certificate>> GenerateCertificateAsync(String studentId, int courseId)
     {
         var alreadyExists = await certificateRepository.ExistsForStudentCourseAsync(studentId, courseId);
         if (alreadyExists)
@@ -50,7 +50,7 @@ public class CertificateServices(ICertificateRepository certificateRepository) :
         return new ServicesResponse<Certificate?>(true, "Certificate found for the given certificate number.", certificate);
     }
 
-    public async Task<ServicesResponse<IEnumerable<Certificate>>> GetCertificatesByStudentAsync(int studentId)
+    public async Task<ServicesResponse<IEnumerable<Certificate>>> GetCertificatesByStudentAsync(String studentId)
     {
         var certificates = await certificateRepository.GetCertificatesByStudentAsync(studentId);
         if (certificates == null || !certificates.Any())
@@ -60,7 +60,7 @@ public class CertificateServices(ICertificateRepository certificateRepository) :
         return new ServicesResponse<IEnumerable<Certificate>>(true, "Certificates found for the given student id.", certificates);
     }
 
-    public async Task<ServicesResponse> ExistsForStudentCourseAsync(int studentId, int courseId)
+    public async Task<ServicesResponse> ExistsForStudentCourseAsync(String studentId, int courseId)
     {
         var exists = await certificateRepository.ExistsForStudentCourseAsync(studentId, courseId);
         if (!exists)

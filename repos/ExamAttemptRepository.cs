@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class ExamAttemptRepository(ApplicationDbContext context) : GenericRepository<ExamAttempt>(context), IExamAttemptRepository
 {
-    public async Task<IEnumerable<ExamAttempt>> GetAttemptsByStudentAsync(int studentId, int examId)
+    public async Task<IEnumerable<ExamAttempt>> GetAttemptsByStudentAsync(String studentId, int examId)
     {
         return await dbSet.Include(e => e.Exam).Include(e => e.Student)
         .Where(e => e.StudentId == studentId && e.ExamId == examId)
@@ -12,7 +12,7 @@ public class ExamAttemptRepository(ApplicationDbContext context) : GenericReposi
 
     }
 
-    public async Task<int> GetAttemptsCountAsync(int studentId, int examId)
+    public async Task<int> GetAttemptsCountAsync(String studentId, int examId)
     {
         return await dbSet.CountAsync(e => e.StudentId == studentId && e.ExamId == examId);
     }
@@ -23,7 +23,7 @@ public class ExamAttemptRepository(ApplicationDbContext context) : GenericReposi
         .Include(a => a.Exam).FirstOrDefaultAsync(e => e.Id == attemptId);
     }
 
-    public async Task<ExamAttempt?> GetLatestAttemptAsync(int studentId, int examId)
+    public async Task<ExamAttempt?> GetLatestAttemptAsync(String studentId, int examId)
     {
         return await dbSet.Include(e => e.Exam).Include(e => e.Student)
             .Where(e => e.StudentId == studentId && e.ExamId == examId)
@@ -31,7 +31,7 @@ public class ExamAttemptRepository(ApplicationDbContext context) : GenericReposi
             .FirstOrDefaultAsync();
     }
 
-    public async Task<bool> HasPassedAsync(int studentId, int examId)
+    public async Task<bool> HasPassedAsync(String studentId, int examId)
     {
         return await dbSet.AnyAsync(e => e.StudentId == studentId && e.ExamId == examId && e.Score >= 70);
     }

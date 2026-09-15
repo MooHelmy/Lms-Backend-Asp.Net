@@ -32,7 +32,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     }
 
     // بيعطّل حساب المستخدم (بدل الحذف الفعلي) - استخدام الـ Admin
-    public async Task DeactivateAsync(int userId)
+    public async Task DeactivateAsync(String userId)
     {
         var user = await dbSet.FindAsync(userId);
         if (user is null) return;

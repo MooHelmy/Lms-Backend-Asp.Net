@@ -23,21 +23,21 @@ public class CourseController(ICourseServices courseServices) : BaseApiControlle
     }
     [HttpPost("courses")]
     [Authorize(Roles = "Admin,Instructor")]
-    public async Task<IActionResult> CreateCourse(int instructorId, CourseCreateDto dto)
+    public async Task<IActionResult> CreateCourse(String instructorId, CourseCreateDto dto)
     {
         var result = await courseServices.CreateCourseAsync(instructorId, dto);
         return HandleResponse(result);
     }
     [HttpPut("courses/{id}")]
     [Authorize(Roles = "Admin,Instructor")]
-    public async Task<IActionResult> UpdateCourse(int id, CourseUpdateDto dto, int instructorId)
+    public async Task<IActionResult> UpdateCourse(int id, CourseUpdateDto dto, String instructorId)
     {
         var result = await courseServices.UpdateCourseAsync(id, instructorId, dto);
         return HandleResponse(result);
     }
     [HttpDelete("courses/{id}")]
     [Authorize(Roles = "Admin,Instructor")]
-    public async Task<IActionResult> DeleteCourse(int id, int instructorId)
+    public async Task<IActionResult> DeleteCourse(int id, String instructorId)
     {
         var result = await courseServices.DeleteCourseAsync(id, instructorId);
         return HandleResponse(result);
@@ -51,7 +51,7 @@ public class CourseController(ICourseServices courseServices) : BaseApiControlle
     }
     [HttpGet("courses/instructor/{id}")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetCoursesByInstructor(int id)
+    public async Task<IActionResult> GetCoursesByInstructor(String id)
     {
         var result = await courseServices.GetCoursesByInstructorAsync(id);
         return HandleResponse(result);

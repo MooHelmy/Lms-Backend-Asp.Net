@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class CourseRepository(ApplicationDbContext context) : GenericRepository<Course>(context), ICourseRepository
 {
-    public async Task<IEnumerable<Course>> GetCoursesByInstructorAsync(int instructorId)
+    public async Task<IEnumerable<Course>> GetCoursesByInstructorAsync(String instructorId)
     {
         return await dbSet.Where(c => c.InstructorId == instructorId).ToListAsync();
     }
@@ -36,7 +36,7 @@ public class CourseRepository(ApplicationDbContext context) : GenericRepository<
            .ToListAsync();
     }
 
-    public async Task<bool> IsOwnedByInstructorAsync(int courseId, int instructorId)
+    public async Task<bool> IsOwnedByInstructorAsync(int courseId, String instructorId)
     {
         return await dbSet.AnyAsync(c => c.Id == courseId && c.InstructorId == instructorId);
     }
@@ -73,7 +73,7 @@ public class CourseRepository(ApplicationDbContext context) : GenericRepository<
 
         if (filter.InstructorId.HasValue)
         {
-            query = query.Where(c => c.InstructorId == filter.InstructorId);
+            query = query.Where(c => c.InstructorId == filter.InstructorId.ToString());
         }
 
         query = (filter.SortBy?.ToLower(), filter.SortDirection.ToLower()) switch

@@ -27,7 +27,7 @@ namespace LMS.Application.Mappers
 
         public static Course CourseCreateToEntityMapper(
             this CourseCreateDto dto,
-            int instructorId)
+            String instructorId)
         {
             return new Course
             {
@@ -226,7 +226,7 @@ namespace LMS.Application.Mappers
             {
                 isCompleted = lesson.ProgressRecords
                     .Any(p =>
-                        p.StudentId == currentStudentId.Value &&
+                        p.StudentId == currentStudentId.Value.ToString() &&
                         p.IsCompleted);
             }
 
@@ -248,7 +248,7 @@ namespace LMS.Application.Mappers
 
         public static Enrollment EnrollmentCreateToEntityMapper(
             this EnrollDto dto,
-            int studentId)
+            String studentId)
         {
             return new Enrollment
             {
@@ -286,7 +286,7 @@ namespace LMS.Application.Mappers
 
         public static LessonProgress LessonProgressCreateMapper(
             this UpdateLessonProgressDto dto,
-            int studentId)
+            String studentId)
         {
             return new LessonProgress
             {
@@ -507,7 +507,7 @@ namespace LMS.Application.Mappers
 
         public static Review ReviewCreateToEntityMapper(
             this ReviewCreateDto dto,
-            int studentId)
+            String studentId)
         {
             return new Review
             {

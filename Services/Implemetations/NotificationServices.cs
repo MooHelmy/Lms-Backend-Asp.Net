@@ -16,7 +16,7 @@ public class NotificationServices(INotificationRepository notificationRepository
         return new ServicesResponse<int>(true, "Notification added successfully.", notification.Id);
     }
 
-    public async Task<ServicesResponse<IEnumerable<Notification>>> GetByUserAsync(int userId, bool unreadOnly = false)
+    public async Task<ServicesResponse<IEnumerable<Notification>>> GetByUserAsync(String userId, bool unreadOnly = false)
     {
         var notifications = await notificationRepository.GetByUserAsync(userId, unreadOnly);
         if (notifications == null || !notifications.Any())
@@ -26,7 +26,7 @@ public class NotificationServices(INotificationRepository notificationRepository
         return new ServicesResponse<IEnumerable<Notification>>(true, "Notifications found for the specified user.", notifications);
     }
 
-    public async Task<ServicesResponse<int>> GetUnreadCountAsync(int userId)
+    public async Task<ServicesResponse<int>> GetUnreadCountAsync(String userId)
     {
         var unreadCount = await notificationRepository.GetUnreadCountAsync(userId);
         if (unreadCount == 0)
@@ -36,7 +36,7 @@ public class NotificationServices(INotificationRepository notificationRepository
         return new ServicesResponse<int>(true, "Unread notifications found for the specified user.", unreadCount);
     }
 
-    public async Task<ServicesResponse<bool>> MarkAllAsReadAsync(int userId)
+    public async Task<ServicesResponse<bool>> MarkAllAsReadAsync(String userId)
     {
         await notificationRepository.MarkAllAsReadAsync(userId);
         return new ServicesResponse<bool>(true, "All notifications marked as read for the specified user.");

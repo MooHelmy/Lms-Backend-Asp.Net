@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 public class SubscriptionController(ISubscriptionServices subscriptionServices) : BaseApiController
 {
     [HttpGet("my")]
-    public async Task<IActionResult> GetActiveSubscription(int userId)
+    public async Task<IActionResult> GetActiveSubscription(String userId)
     {
         var result = await subscriptionServices.GetActiveSubscriptionAsync(userId);
         return HandleResponse(result);
     }
     [HttpGet("my/is-active")]
-    public async Task<IActionResult> IsActiveSubscription(int userId)
+    public async Task<IActionResult> IsActiveSubscription(String userId)
     {
         var result = await subscriptionServices.IsActiveSubscriptionAsync(userId);
         return HandleResponse(result);
@@ -25,13 +25,13 @@ public class SubscriptionController(ISubscriptionServices subscriptionServices) 
         return HandleResponse(result);
     }
     [HttpPost("plan/{planId:int}")]
-    public async Task<IActionResult> Subscribe(int userId, int planId)
+    public async Task<IActionResult> Subscribe(String userId, int planId)
     {
         var result = await subscriptionServices.SubscribeAsync(userId, planId);
         return HandleResponse(result);
     }
     [HttpDelete("my")]
-    public async Task<IActionResult> CancelSubscription(int userId)
+    public async Task<IActionResult> CancelSubscription(String userId)
     {
         var result = await subscriptionServices.CancelSubscriptionAsync(userId);
         return HandleResponse(result);

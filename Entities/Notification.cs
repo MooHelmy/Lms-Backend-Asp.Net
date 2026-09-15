@@ -2,7 +2,7 @@ namespace LMS.Domain.Entities
 {
     public class Notification : BaseEntity
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
         public User User { get; set; } = null!;
 
         public string Title { get; set; } = string.Empty;

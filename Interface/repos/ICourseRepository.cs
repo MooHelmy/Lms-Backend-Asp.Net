@@ -9,9 +9,9 @@ using LMS.Domain.Entities;
 public interface ICourseRepository : IGeneric<Course>
 {
     Task<CourseDetailsDto?> GetCourseWithDetailsAsync(int courseId);
-    Task<IEnumerable<Course>> GetCoursesByInstructorAsync(int instructorId);
+    Task<IEnumerable<Course>> GetCoursesByInstructorAsync(String instructorId);
     Task<IEnumerable<Course>> GetTopSellingCoursesAsync(int count);
-    Task<bool> IsOwnedByInstructorAsync(int courseId, int instructorId);
+    Task<bool> IsOwnedByInstructorAsync(int courseId, String instructorId);
     Task<int> GetPublishedCoursesCountAsync();
     Task<PagedResult<CourseListItemDto>> GetCoursesAsync(CourseFilterDto filter);
 }

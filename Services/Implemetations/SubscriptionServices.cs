@@ -7,7 +7,7 @@ public class SubscriptionServices(
     IGeneric<SubscriptionPlan> subscriptionPlanRepository) : ISubscriptionServices
 {
     // بيشترك المستخدم في خطة معينة، وبيحسب تاريخ الانتهاء بناءً على مدة الخطة 
-    public async Task<ServicesResponse<Subscription>> SubscribeAsync(int userId, int planId)
+    public async Task<ServicesResponse<Subscription>> SubscribeAsync(String userId, int planId)
     {
         var plan = await subscriptionPlanRepository.GetByIdAsync(planId);
         if (plan is null)
@@ -30,7 +30,7 @@ public class SubscriptionServices(
     }
 
     // بيلغي الاشتراك الفعال الحالي للمستخدم
-    public async Task<ServicesResponse<bool>> CancelSubscriptionAsync(int userId)
+    public async Task<ServicesResponse<bool>> CancelSubscriptionAsync(String userId)
     {
         var subscription = await subscriptionRepository.SingleOrDefaultAsync(
             s => s.UserId == userId && s.Status == SubscriptionStatus.Active);
@@ -47,7 +47,7 @@ public class SubscriptionServices(
     }
 
 
-    public async Task<ServicesResponse<Subscription?>> GetActiveSubscriptionAsync(int userId)
+    public async Task<ServicesResponse<Subscription?>> GetActiveSubscriptionAsync(String userId)
     {
         var subscription = await subscriptionRepository.GetActiveSubscriptionAsync(userId);
         if (subscription == null)
@@ -67,7 +67,7 @@ public class SubscriptionServices(
         return new ServicesResponse<IEnumerable<Subscription>>(true, "Expiring subscriptions found.", expiringSubscriptions);
     }
 
-    public async Task<ServicesResponse<bool>> IsActiveSubscriptionAsync(int userId)
+    public async Task<ServicesResponse<bool>> IsActiveSubscriptionAsync(String userId)
     {
         var subscription = await subscriptionRepository.GetActiveSubscriptionAsync(userId);
         return new ServicesResponse<bool>(true, "Active subscription check completed.", subscription != null);

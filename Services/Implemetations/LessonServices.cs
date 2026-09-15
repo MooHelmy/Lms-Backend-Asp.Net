@@ -10,7 +10,7 @@ public class LessonServices(
     IEnrollmentRepository enrollmentRepository) : ILessonServices
 {
     // بيضيف درس جديد، بعد التأكد إن المدرس مالك الكورس اللي الـ Section ده تابعله
-    public async Task<ServicesResponse<LessonResponseDto>> AddLessonAsync(int instructorId, LessonCreateDto dto)
+    public async Task<ServicesResponse<LessonResponseDto>> AddLessonAsync(String instructorId, LessonCreateDto dto)
     {
         var isOwned = await sectionRepository.IsOwnedByInstructorAsync(dto.SectionId, instructorId);
         if (!isOwned)
@@ -25,7 +25,7 @@ public class LessonServices(
     }
 
     // بيعدّل الدرس بعد التأكد من الملكية عن طريق الـ Section بتاعه
-    public async Task<ServicesResponse<bool>> UpdateLessonAsync(int lessonId, int instructorId, LessonUpdateDto dto)
+    public async Task<ServicesResponse<bool>> UpdateLessonAsync(int lessonId, String instructorId, LessonUpdateDto dto)
     {
         var lesson = await lessonRepository.GetLessonWithSectionAsync(lessonId);
         if (lesson is null)
@@ -45,7 +45,7 @@ public class LessonServices(
         return new ServicesResponse<bool>(true, "Lesson updated successfully.", true);
     }
 
-    public async Task<ServicesResponse<bool>> DeleteLessonAsync(int lessonId, int instructorId)
+    public async Task<ServicesResponse<bool>> DeleteLessonAsync(int lessonId, String instructorId)
     {
         var lesson = await lessonRepository.GetLessonWithSectionAsync(lessonId);
         if (lesson is null)
@@ -64,7 +64,7 @@ public class LessonServices(
     }
 
     // بيرجع محتوى الدرس للطالب، بس بعد التأكد إنه مسجل في الكورس اللي الدرس ده تابعله
-    public async Task<ServicesResponse<LessonResponseDto>> GetLessonForStudentAsync(int lessonId, int studentId)
+    public async Task<ServicesResponse<LessonResponseDto>> GetLessonForStudentAsync(int lessonId, String studentId)
     {
         var lesson = await lessonRepository.GetLessonWithSectionAsync(lessonId);
         if (lesson is null)

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class ProgressRepository(ApplicationDbContext context) : GenericRepository<LessonProgress>(context), IProgressRepository
 {
-    public async Task<int> GetCompletedLessonsCountAsync(int studentId, int courseId)
+    public async Task<int> GetCompletedLessonsCountAsync(String studentId, int courseId)
     {
         var hasAny = await dbSet.AnyAsync(p => p.StudentId == studentId
          && p.Lesson.Section.CourseId == courseId);
@@ -11,14 +11,14 @@ public class ProgressRepository(ApplicationDbContext context) : GenericRepositor
         return await dbSet.CountAsync(p => p.StudentId == studentId && p.Lesson.Section.CourseId == courseId);
     }
 
-    public async Task<LessonProgress?> GetProgressAsync(int studentId, int lessonId)
+    public async Task<LessonProgress?> GetProgressAsync(String studentId, int lessonId)
     {
         var hasAny = await dbSet.AnyAsync(p => p.StudentId == studentId && p.LessonId == lessonId);
         if (!hasAny) return null;
         return await dbSet.FirstOrDefaultAsync(p => p.StudentId == studentId && p.LessonId == lessonId);
     }
 
-    public async Task MarkLessonCompletedAsync(int studentId, int lessonId)
+    public async Task MarkLessonCompletedAsync(String studentId, int lessonId)
     {
         var progress = await GetProgressAsync(studentId, lessonId);
 

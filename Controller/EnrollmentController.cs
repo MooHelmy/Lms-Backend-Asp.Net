@@ -8,14 +8,14 @@ public class EnrollmentController(IEnrollmentServices enrollmentServices) : Base
 {
     [HttpGet("is-enrolled")]
     [AllowAnonymous]
-    public async Task<IActionResult> IsEnrolled(int studentId, int courseId)
+    public async Task<IActionResult> IsEnrolled(String studentId, int courseId)
     {
         var result = await enrollmentServices.IsEnrolledAsync(studentId, courseId);
         return HandleResponse(result);
     }
     [HttpGet("student/{studentId}")]
     [Authorize(Roles = "student")]
-    public async Task<IActionResult> GetEnrollmentsByStudent(int studentId)
+    public async Task<IActionResult> GetEnrollmentsByStudent(String studentId)
     {
         var result = await enrollmentServices.GetEnrollmentsByStudentAsync(studentId);
         return HandleResponse(result);
@@ -43,14 +43,14 @@ public class EnrollmentController(IEnrollmentServices enrollmentServices) : Base
     }
     [HttpPost("enrollments")]
     [Authorize(Roles = "student")]
-    public async Task<IActionResult> Enroll(int studentId, EnrollDto dto)
+    public async Task<IActionResult> Enroll(String studentId, EnrollDto dto)
     {
         var result = await enrollmentServices.EnrollAsync(studentId, dto);
         return HandleResponse(result);
     }
     [HttpDelete("enrollments")]
     [Authorize(Roles = "student")]
-    public async Task<IActionResult> CancelEnrollment(int studentId, int courseId)
+    public async Task<IActionResult> CancelEnrollment(String studentId, int courseId)
     {
         var result = await enrollmentServices.CancelEnrollmentAsync(studentId, courseId);
         return HandleResponse(result);

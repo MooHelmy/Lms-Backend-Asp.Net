@@ -2,8 +2,8 @@ using LMS.Domain.Entities;
 
 public interface INotificationRepository : IGeneric<Notification>
 {
-    Task<IEnumerable<Notification>> GetByUserAsync(int userId, bool unreadOnly = false);
+    Task<IEnumerable<Notification>> GetByUserAsync(String userId, bool unreadOnly = false);
     Task MarkAsReadAsync(int notificationId);
-    Task MarkAllAsReadAsync(int userId);
-    Task<int> GetUnreadCountAsync(int userId);
+    Task MarkAllAsReadAsync(String userId);
+    Task<int> GetUnreadCountAsync(String userId);
 }

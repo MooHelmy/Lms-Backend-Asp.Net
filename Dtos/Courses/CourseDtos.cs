@@ -38,7 +38,7 @@ namespace LMS.Application.DTOs.Courses
         public string? ThumbnailUrl { get; set; }
         public decimal Price { get; set; }
         public bool IsPublished { get; set; }
-        public int InstructorId { get; set; }
+        public String InstructorId { get; set; } = string.Empty;
         public string InstructorName { get; set; } = string.Empty;
         public string CategoryName { get; set; } = string.Empty;
         public double AverageRating { get; set; }

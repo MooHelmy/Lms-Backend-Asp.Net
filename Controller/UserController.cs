@@ -88,7 +88,7 @@ public class UserController(IUserServices userServices) : BaseApiController
     }
     [HttpPatch("{userId:int}/deactivate")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> Deactivate(int userId)
+    public async Task<IActionResult> Deactivate(String userId)
     {
         var result = await userServices.DeactivateAsync(userId);
         return HandleResponse(result);

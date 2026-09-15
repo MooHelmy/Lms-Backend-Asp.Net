@@ -14,7 +14,7 @@ public class NotificationController(INotificationServices notificationServices) 
         return HandleResponse(result);
     }
     [HttpGet("user/{userId}")]
-    public async Task<IActionResult> GetByUser(int userId, bool unreadOnly = false)
+    public async Task<IActionResult> GetByUser(String userId, bool unreadOnly = false)
     {
         var result = await notificationServices.GetByUserAsync(userId, unreadOnly);
         return HandleResponse(result);
@@ -26,13 +26,13 @@ public class NotificationController(INotificationServices notificationServices) 
         return HandleResponse(result);
     }
     [HttpPut("read-all")]
-    public async Task<IActionResult> MarkAllAsRead(int userId)
+    public async Task<IActionResult> MarkAllAsRead(String userId)
     {
         var result = await notificationServices.MarkAllAsReadAsync(userId);
         return HandleResponse(result);
     }
     [HttpGet("unread-count")]
-    public async Task<IActionResult> GetUnreadCount(int userId)
+    public async Task<IActionResult> GetUnreadCount(String userId)
     {
         var result = await notificationServices.GetUnreadCountAsync(userId);
         return HandleResponse(result);

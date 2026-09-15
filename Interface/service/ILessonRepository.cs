@@ -8,8 +8,8 @@ public interface ILessonServices
     Task<ServicesResponse<double>> GetTotalDurationByCourseAsync(int courseId);
     Task<ServicesResponse<int>> CountLessonsByCourseAsync(int courseId);
 
-    Task<ServicesResponse<LessonResponseDto>> AddLessonAsync(int instructorId, LessonCreateDto dto);
-    Task<ServicesResponse<bool>> UpdateLessonAsync(int lessonId, int instructorId, LessonUpdateDto dto);
-    Task<ServicesResponse<bool>> DeleteLessonAsync(int lessonId, int instructorId);
-    Task<ServicesResponse<LessonResponseDto>> GetLessonForStudentAsync(int lessonId, int studentId);
+    Task<ServicesResponse<LessonResponseDto>> AddLessonAsync(String instructorId, LessonCreateDto dto);
+    Task<ServicesResponse<bool>> UpdateLessonAsync(int lessonId, String instructorId, LessonUpdateDto dto);
+    Task<ServicesResponse<bool>> DeleteLessonAsync(int lessonId, String instructorId);
+    Task<ServicesResponse<LessonResponseDto>> GetLessonForStudentAsync(int lessonId, String studentId);
 }

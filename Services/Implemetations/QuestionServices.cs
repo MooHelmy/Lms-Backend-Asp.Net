@@ -6,7 +6,7 @@ using LMS.Domain.Entities;
 public class QuestionServices(IQuestionRepository questionRepository, IExamRepository examRepository) : IQuestionServices
 {
     // بيضيف سؤال جديد (مع إجاباته) للامتحان، بعد التأكد من الملكية
-    public async Task<ServicesResponse<Question>> AddQuestionAsync(int examId, int instructorId, QuestionCreateDto dto)
+    public async Task<ServicesResponse<Question>> AddQuestionAsync(int examId, String instructorId, QuestionCreateDto dto)
     {
         var isOwned = await examRepository.IsOwnedByInstructorAsync(examId, instructorId);
         if (!isOwned)
@@ -21,7 +21,7 @@ public class QuestionServices(IQuestionRepository questionRepository, IExamRepos
     }
 
     // بيحذف السؤال، بعد التأكد إن الامتحان اللي السؤال ده تابعله ملك المدرس
-    public async Task<ServicesResponse<bool>> DeleteQuestionAsync(int questionId, int instructorId)
+    public async Task<ServicesResponse<bool>> DeleteQuestionAsync(int questionId, String instructorId)
     {
         var question = await questionRepository.GetByIdAsync(questionId);
         if (question is null)

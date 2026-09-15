@@ -16,14 +16,14 @@ public class EnrollmentRepository(ApplicationDbContext context) : GenericReposit
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Enrollment>> GetEnrollmentsByStudentAsync(int studentId)
+    public async Task<IEnumerable<Enrollment>> GetEnrollmentsByStudentAsync(String studentId)
     {
         return await dbSet.Include(e => e.Course)
             .Where(e => e.StudentId == studentId)
             .ToListAsync();
     }
 
-    public async Task<bool> IsEnrolledAsync(int studentId, int courseId)
+    public async Task<bool> IsEnrolledAsync(String studentId, int courseId)
     {
         return await dbSet.AnyAsync(e =>
              e.StudentId == studentId &&

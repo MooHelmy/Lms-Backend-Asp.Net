@@ -11,7 +11,7 @@ public class UserServices(IUserRepository userRepository, UserManager<User> user
     ITokenService tokenService,
     IConfiguration configuration) : IUserServices
 {
-    public async Task<ServicesResponse<bool>> DeactivateAsync(int userId)
+    public async Task<ServicesResponse<bool>> DeactivateAsync(String userId)
     {
         await userRepository.DeactivateAsync(userId);
         return new ServicesResponse<bool>(true, "User deactivated.");

@@ -16,7 +16,7 @@ public class ExamRepository(ApplicationDbContext context) : GenericRepository<Ex
         .FirstOrDefaultAsync(e => e.Id == examId);
     }
 
-    public async Task<bool> IsOwnedByInstructorAsync(int examId, int instructorId)
+    public async Task<bool> IsOwnedByInstructorAsync(int examId, String instructorId)
     {
 
         return await dbSet.Include(e => e.Course)

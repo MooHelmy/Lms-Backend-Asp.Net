@@ -21,7 +21,7 @@ public class ReviewRepository(ApplicationDbContext context) : GenericRepository<
             .ToListAsync();
     }
 
-    public async Task<bool> HasReviewedAsync(int studentId, int courseId)
+    public async Task<bool> HasReviewedAsync(String studentId, int courseId)
     {
         return await dbSet.AnyAsync(r => r.StudentId == studentId && r.CourseId == courseId);
     }

@@ -5,7 +5,7 @@ namespace LMS.Domain.Entities
         public int ExamId { get; set; }
         public Exam Exam { get; set; } = null!;
 
-        public int StudentId { get; set; }
+        public String StudentId { get; set; } = string.Empty;
         public User Student { get; set; } = null!;
 
         public DateTime StartedAt { get; set; } = DateTime.UtcNow;

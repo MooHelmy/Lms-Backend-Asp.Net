@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class NotificationRepository(ApplicationDbContext context) : GenericRepository<Notification>(context), INotificationRepository
 {
-    public async Task<IEnumerable<Notification>> GetByUserAsync(int userId, bool unreadOnly = false)
+    public async Task<IEnumerable<Notification>> GetByUserAsync(String userId, bool unreadOnly = false)
     {
         var query = dbSet.Where(n => n.UserId == userId);
 
@@ -13,12 +13,12 @@ public class NotificationRepository(ApplicationDbContext context) : GenericRepos
         return await query.OrderByDescending(n => n.CreatedAt).ToListAsync();
     }
 
-    public async Task<int> GetUnreadCountAsync(int userId)
+    public async Task<int> GetUnreadCountAsync(String userId)
     {
         return await dbSet.CountAsync(n => n.UserId == userId && !n.IsRead);
     }
 
-    public async Task MarkAllAsReadAsync(int userId)
+    public async Task MarkAllAsReadAsync(String userId)
     {
         var notifications = await dbSet.Where(n => n.UserId == userId && !n.IsRead).ToListAsync();
 

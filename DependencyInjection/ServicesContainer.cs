@@ -111,6 +111,7 @@ public static class ServicesContainer
         services.AddScoped<IExamAttemptServices, ExamAttemptServices>();
         services.AddScoped<IUserServices, UserServices>();
         services.AddScoped<ISectionServices, SectionServices>();
+        services.AddScoped<ITokenService, TokenService>();
 
 
 

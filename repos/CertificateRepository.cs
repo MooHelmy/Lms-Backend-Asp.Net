@@ -5,7 +5,7 @@ public class CertificateRepository(ApplicationDbContext context) : GenericReposi
 {
     // بيتأكد إن الشهادة معملتش قبل كده لنفس الطالب في نفس الكورس (منع تكرار الإصدار)
 
-    public async Task<bool> ExistsForStudentCourseAsync(int studentId, int courseId)
+    public async Task<bool> ExistsForStudentCourseAsync(String studentId, int courseId)
     {
         return await dbSet.AnyAsync(c => c.StudentId == studentId && c.CourseId == courseId);
     }
@@ -18,7 +18,7 @@ public class CertificateRepository(ApplicationDbContext context) : GenericReposi
            .FirstOrDefaultAsync(c => c.CertificateNumber == certificateNumber);
     }
 
-    public async Task<IEnumerable<Certificate>> GetCertificatesByStudentAsync(int studentId)
+    public async Task<IEnumerable<Certificate>> GetCertificatesByStudentAsync(String studentId)
     {
         return await dbSet.Include(c => c.Student)
              .Include(c => c.Course)

@@ -8,7 +8,7 @@ namespace LMS.Domain.Entities
         public decimal Price { get; set; }
         public bool IsPublished { get; set; }
 
-        public int InstructorId { get; set; }
+        public String InstructorId { get; set; } = string.Empty;
         public User Instructor { get; set; } = null!;
 
         public int CategoryId { get; set; }

@@ -7,7 +7,7 @@ public class ProgressServices(IProgressRepository progressRepository, ILessonRep
 {
     // بيحدّث تقدم الطالب في درس معين (وقت المشاهدة + هل خلص الدرس ولا لأ)
     // لو مفيش سجل تقدم أصلًا بينشئ واحد جديد، ولو موجود بيحدّثه بس
-    public async Task<ServicesResponse<bool>> UpdateLessonProgressAsync(int studentId, UpdateLessonProgressDto dto)
+    public async Task<ServicesResponse<bool>> UpdateLessonProgressAsync(String studentId, UpdateLessonProgressDto dto)
     {
         var progress = await progressRepository.GetProgressAsync(studentId, dto.LessonId);
 
@@ -26,7 +26,7 @@ public class ProgressServices(IProgressRepository progressRepository, ILessonRep
     }
 
     // بيحسب نسبة تقدم الطالب في كورس معين: عدد الدروس المكتملة / إجمالي عدد الدروس
-    public async Task<ServicesResponse<CourseProgressDto>> GetCourseProgressAsync(int studentId, int courseId)
+    public async Task<ServicesResponse<CourseProgressDto>> GetCourseProgressAsync(String studentId, int courseId)
     {
         var totalLessons = await lessonRepository.CountLessonsByCourseAsync(courseId);
         var completedLessons = await progressRepository.GetCompletedLessonsCountAsync(studentId, courseId);
@@ -47,7 +47,7 @@ public class ProgressServices(IProgressRepository progressRepository, ILessonRep
     }
 
 
-    public async Task<ServicesResponse<int>> GetCompletedLessonsCountAsync(int studentId, int courseId)
+    public async Task<ServicesResponse<int>> GetCompletedLessonsCountAsync(String studentId, int courseId)
     {
         var completedLessonsCount = await progressRepository.GetCompletedLessonsCountAsync(studentId, courseId);
         if (completedLessonsCount == 0)
@@ -57,7 +57,7 @@ public class ProgressServices(IProgressRepository progressRepository, ILessonRep
         return new ServicesResponse<int>(true, "Completed lessons found for the specified student and course.", completedLessonsCount);
     }
 
-    public async Task<ServicesResponse<LessonProgress?>> GetProgressAsync(int studentId, int lessonId)
+    public async Task<ServicesResponse<LessonProgress?>> GetProgressAsync(String studentId, int lessonId)
     {
         var progress = await progressRepository.GetProgressAsync(studentId, lessonId);
         if (progress == null)
@@ -69,7 +69,7 @@ public class ProgressServices(IProgressRepository progressRepository, ILessonRep
 
     // كانت الميثود دي بترجع true/false بس من غير ما تنادي التحديث الفعلي في الـ Repository
     // (اللي أصلًا بيعمل Create لو مفيش سجل، أو Update لو موجود) - اتصلحت هنا
-    public async Task<ServicesResponse<bool>> MarkLessonCompletedAsync(int studentId, int lessonId)
+    public async Task<ServicesResponse<bool>> MarkLessonCompletedAsync(String studentId, int lessonId)
     {
         await progressRepository.MarkLessonCompletedAsync(studentId, lessonId);
         return new ServicesResponse<bool>(true, "Lesson marked as completed.", true);

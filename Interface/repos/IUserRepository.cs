@@ -7,5 +7,5 @@ public interface IUserRepository : IGeneric<User>
     Task<bool> EmailExistsAsync(string email);
     Task<IEnumerable<User>> GetInstructorsAsync();
     Task<IEnumerable<User>> GetStudentsAsync();
-    Task DeactivateAsync(int userId);
+    Task DeactivateAsync(String userId);
 }

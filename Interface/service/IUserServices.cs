@@ -23,5 +23,5 @@ public interface IUserServices
     Task<ServicesResponse<bool>> EmailExistsAsync(string email);
     Task<ServicesResponse<IEnumerable<User>>> GetInstructorsAsync();
     Task<ServicesResponse<IEnumerable<User>>> GetStudentsAsync();
-    Task<ServicesResponse<bool>> DeactivateAsync(int userId);
+    Task<ServicesResponse<bool>> DeactivateAsync(String userId);
 }

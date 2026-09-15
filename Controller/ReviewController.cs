@@ -22,14 +22,14 @@ public class ReviewController(IReviewServices reviewServices) : BaseApiControlle
     }
     [Authorize(Roles = "Student")]
     [HttpGet("course/{courseId:int}/has-reviewed")]
-    public async Task<IActionResult> HasReviewed(int studentId, int courseId)
+    public async Task<IActionResult> HasReviewed(String studentId, int courseId)
     {
         var result = await reviewServices.HasReviewedAsync(studentId, courseId);
         return HandleResponse(result);
     }
     [Authorize(Roles = "Student")]
     [HttpPost("course/{courseId:int}/add-review")]
-    public async Task<IActionResult> AddReview(int studentId, ReviewCreateDto dto)
+    public async Task<IActionResult> AddReview(String studentId, ReviewCreateDto dto)
     {
         var result = await reviewServices.AddReviewAsync(studentId, dto);
         return HandleResponse(result);

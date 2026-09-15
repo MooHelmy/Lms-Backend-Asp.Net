@@ -2,7 +2,7 @@ namespace LMS.Domain.Entities
 {
     public class Review : BaseEntity
     {
-        public int StudentId { get; set; }
+        public String StudentId { get; set; } = string.Empty;
         public User Student { get; set; } = null!;
 
         public int CourseId { get; set; }

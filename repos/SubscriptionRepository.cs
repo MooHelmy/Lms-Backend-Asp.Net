@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class SubscriptionRepository(ApplicationDbContext context) : GenericRepository<Subscription>(context), ISubscriptionRepository
 {
-    public async Task<Subscription?> GetActiveSubscriptionAsync(int userId)
+    public async Task<Subscription?> GetActiveSubscriptionAsync(String userId)
     {
         var hasAny = await dbSet.AnyAsync(s => s.UserId == userId);
         if (!hasAny) return null;
@@ -27,7 +27,7 @@ public class SubscriptionRepository(ApplicationDbContext context) : GenericRepos
             .ToListAsync();
     }
 
-    public async Task<bool> IsActiveAsync(int userId)
+    public async Task<bool> IsActiveAsync(String userId)
     {
         var hasAny = await dbSet.AnyAsync(s => s.UserId == userId);
         if (!hasAny) return false;

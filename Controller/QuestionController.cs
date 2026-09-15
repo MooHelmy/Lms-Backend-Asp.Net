@@ -27,7 +27,7 @@ public class QuestionController(IQuestionServices questionServices) : BaseApiCon
     }
     [HttpPost("exam/{examId:int}/add-question")]
     [Authorize(Roles = "Instructor,Admin")]
-    public async Task<IActionResult> AddQuestion(int examId, int instructorId, QuestionCreateDto dto)
+    public async Task<IActionResult> AddQuestion(int examId, String instructorId, QuestionCreateDto dto)
     {
         var result = await questionServices.AddQuestionAsync(examId, instructorId, dto);
         return HandleResponse(result);

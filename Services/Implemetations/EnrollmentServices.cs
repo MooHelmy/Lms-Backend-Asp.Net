@@ -6,7 +6,7 @@ using LMS.Domain.Entities;
 public class EnrollmentServices(IEnrollmentRepository enrollmentRepository, ICourseRepository courseRepository) : IEnrollmentServices
 {
     // بيسجل الطالب في كورس، بعد التأكد إن الكورس موجود وإنه مش مسجل فيه أصلًا
-    public async Task<ServicesResponse<EnrollmentResponseDto>> EnrollAsync(int studentId, EnrollDto dto)
+    public async Task<ServicesResponse<EnrollmentResponseDto>> EnrollAsync(String studentId, EnrollDto dto)
     {
         var course = await courseRepository.GetByIdAsync(dto.CourseId);
         if (course is null)
@@ -28,7 +28,7 @@ public class EnrollmentServices(IEnrollmentRepository enrollmentRepository, ICou
     }
 
     // بيلغي تسجيل الطالب في كورس معين (بيغيّر الحالة لـ Cancelled بدل الحذف الفعلي)
-    public async Task<ServicesResponse<bool>> CancelEnrollmentAsync(int studentId, int courseId)
+    public async Task<ServicesResponse<bool>> CancelEnrollmentAsync(String studentId, int courseId)
     {
         var enrollment = await enrollmentRepository.SingleOrDefaultAsync(
             e => e.StudentId == studentId && e.CourseId == courseId);
@@ -65,7 +65,7 @@ public class EnrollmentServices(IEnrollmentRepository enrollmentRepository, ICou
         return new ServicesResponse<IEnumerable<Enrollment>>(true, "Enrollments found for the given course id.", enrollments);
     }
 
-    public async Task<ServicesResponse<IEnumerable<Enrollment>>> GetEnrollmentsByStudentAsync(int studentId)
+    public async Task<ServicesResponse<IEnumerable<Enrollment>>> GetEnrollmentsByStudentAsync(String studentId)
     {
         var enrollments = await enrollmentRepository.GetEnrollmentsByStudentAsync(studentId);
         if (enrollments == null || !enrollments.Any())
@@ -75,7 +75,7 @@ public class EnrollmentServices(IEnrollmentRepository enrollmentRepository, ICou
         return new ServicesResponse<IEnumerable<Enrollment>>(true, "Enrollments found for the given student id.", enrollments);
     }
 
-    public async Task<ServicesResponse<bool>> IsEnrolledAsync(int studentId, int courseId)
+    public async Task<ServicesResponse<bool>> IsEnrolledAsync(String studentId, int courseId)
     {
         var isEnrolled = await enrollmentRepository.IsEnrolledAsync(studentId, courseId);
         if (!isEnrolled)

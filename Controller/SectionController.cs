@@ -20,28 +20,28 @@ public class SectionController(ISectionServices sectionServices) : BaseApiContro
     }
     [HttpGet("{sectionId:int}/owned-by-instructor")]
     [Authorize(Roles = "Instructor,Admin")]
-    public async Task<IActionResult> IsOwnedByInstructor(int sectionId, int instructorId)
+    public async Task<IActionResult> IsOwnedByInstructor(int sectionId, String instructorId)
     {
         var result = await sectionServices.IsOwnedByInstructorAsync(sectionId, instructorId);
         return HandleResponse(result);
     }
     [HttpPost("course/{courseId:int}/add-section")]
     [Authorize(Roles = "Instructor,Admin")]
-    public async Task<IActionResult> AddSection(int instructorId, SectionCreateDto dto)
+    public async Task<IActionResult> AddSection(String instructorId, SectionCreateDto dto)
     {
         var result = await sectionServices.AddSectionAsync(instructorId, dto);
         return HandleResponse(result);
     }
     [HttpPut("{sectionId:int}/update-section")]
     [Authorize(Roles = "Instructor,Admin")]
-    public async Task<IActionResult> UpdateSection(int sectionId, int instructorId, SectionUpdateDto dto)
+    public async Task<IActionResult> UpdateSection(int sectionId, String instructorId, SectionUpdateDto dto)
     {
         var result = await sectionServices.UpdateSectionAsync(sectionId, instructorId, dto);
         return HandleResponse(result);
     }
     [HttpDelete("{sectionId:int}/delete-section")]
     [Authorize(Roles = "Instructor,Admin")]
-    public async Task<IActionResult> DeleteSection(int sectionId, int instructorId)
+    public async Task<IActionResult> DeleteSection(int sectionId, String instructorId)
     {
         var result = await sectionServices.DeleteSectionAsync(sectionId, instructorId);
         return HandleResponse(result);
