@@ -30,7 +30,7 @@ public static class IdentitySeeder
             {
                 UserName = adminEmail,
                 Email = adminEmail,
-                Name = "Super Admin",
+                FullName = "Super Admin",
                 EmailConfirmed = true,
                 CreatedAt = DateTime.UtcNow
             };

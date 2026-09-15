@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 // ويضيف بس الميثودز الإضافية اللي خاصة بيه (زي CourseRepository في المثال تحت).
 public class GenericRepository<T> : IGeneric<T> where T : class
 {
-    protected readonly DbContext context;
+    protected readonly ApplicationDbContext context;
     protected readonly DbSet<T> dbSet;
 
-    public GenericRepository(DbContext dbContext)
+    public GenericRepository(ApplicationDbContext dbContext)
     {
         context = dbContext;
         dbSet = dbContext.Set<T>();

@@ -2,7 +2,7 @@
 using LMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-public class EnrollmentRepository(DbContext context) : GenericRepository<Enrollment>(context), IEnrollmentRepository
+public class EnrollmentRepository(ApplicationDbContext context) : GenericRepository<Enrollment>(context), IEnrollmentRepository
 {
     public async Task<int> GetActiveEnrollmentsCountAsync(int courseId)
     {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class UserRepository : GenericRepository<User>, IUserRepository
 {
-    public UserRepository(DbContext context) : base(context)
+    public UserRepository(ApplicationDbContext context) : base(context)
     {
     }
 

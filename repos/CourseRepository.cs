@@ -4,7 +4,7 @@ using LMS.Application.Mappers;
 using LMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-public class CourseRepository(DbContext context) : GenericRepository<Course>(context), ICourseRepository
+public class CourseRepository(ApplicationDbContext context) : GenericRepository<Course>(context), ICourseRepository
 {
     public async Task<IEnumerable<Course>> GetCoursesByInstructorAsync(int instructorId)
     {

@@ -1,7 +1,7 @@
 using LMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-public class CertificateRepository(DbContext context) : GenericRepository<Certificate>(context), ICertificateRepository
+public class CertificateRepository(ApplicationDbContext context) : GenericRepository<Certificate>(context), ICertificateRepository
 {
     // بيتأكد إن الشهادة معملتش قبل كده لنفس الطالب في نفس الكورس (منع تكرار الإصدار)
 

@@ -1,7 +1,7 @@
 using LMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-public class ExamAttemptRepository(DbContext context) : GenericRepository<ExamAttempt>(context), IExamAttemptRepository
+public class ExamAttemptRepository(ApplicationDbContext context) : GenericRepository<ExamAttempt>(context), IExamAttemptRepository
 {
     public async Task<IEnumerable<ExamAttempt>> GetAttemptsByStudentAsync(int studentId, int examId)
     {

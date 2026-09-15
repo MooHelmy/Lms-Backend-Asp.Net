@@ -1,7 +1,7 @@
 using LMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-public class LessonRepository(DbContext context) : GenericRepository<Lesson>(context), ILessonRepository
+public class LessonRepository(ApplicationDbContext context) : GenericRepository<Lesson>(context), ILessonRepository
 {
     public async Task<int> CountLessonsByCourseAsync(int courseId)
     {

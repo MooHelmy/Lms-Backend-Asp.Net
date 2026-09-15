@@ -61,7 +61,7 @@ namespace LMS.Application.Mappers
                 ThumbnailUrl = course.ThumbnailUrl,
                 Price = course.Price,
 
-                InstructorName = course.Instructor?.Name ?? string.Empty,
+                InstructorName = course.Instructor?.FullName ?? string.Empty,
                 CategoryName = course.Category?.Name ?? string.Empty,
 
                 AverageRating = course.Reviews.Any()
@@ -91,7 +91,7 @@ namespace LMS.Application.Mappers
                 IsPublished = course.IsPublished,
 
                 InstructorId = course.InstructorId,
-                InstructorName = course.Instructor?.Name ?? string.Empty,
+                InstructorName = course.Instructor?.FullName ?? string.Empty,
 
                 CategoryName = course.Category?.Name ?? string.Empty,
 
@@ -524,7 +524,7 @@ namespace LMS.Application.Mappers
             return new ReviewResponseDto
             {
                 Id = review.Id,
-                StudentName = review.Student?.Name ?? string.Empty,
+                StudentName = review.Student?.FullName ?? string.Empty,
                 Rating = review.Rating,
                 Comment = review.Comment,
                 CreatedAt = review.CreatedAt
@@ -577,13 +577,13 @@ namespace LMS.Application.Mappers
                 CertificateNumber = certificate.CertificateNumber,
 
                 StudentName =
-                    certificate.Student?.Name ?? string.Empty,
+                    certificate.Student?.FullName ?? string.Empty,
 
                 CourseTitle =
                     certificate.Course?.Title ?? string.Empty,
 
                 InstructorName =
-                    certificate.Course?.Instructor?.Name ?? string.Empty,
+                    certificate.Course?.Instructor?.FullName ?? string.Empty,
 
                 FileUrl = certificate.FileUrl,
                 IssuedAt = certificate.IssuedAt

@@ -1,7 +1,7 @@
 using LMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-public class NotificationRepository(DbContext context) : GenericRepository<Notification>(context), INotificationRepository
+public class NotificationRepository(ApplicationDbContext context) : GenericRepository<Notification>(context), INotificationRepository
 {
     public async Task<IEnumerable<Notification>> GetByUserAsync(int userId, bool unreadOnly = false)
     {

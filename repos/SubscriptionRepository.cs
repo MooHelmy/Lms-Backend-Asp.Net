@@ -1,7 +1,7 @@
 using LMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-public class SubscriptionRepository(DbContext context) : GenericRepository<Subscription>(context), ISubscriptionRepository
+public class SubscriptionRepository(ApplicationDbContext context) : GenericRepository<Subscription>(context), ISubscriptionRepository
 {
     public async Task<Subscription?> GetActiveSubscriptionAsync(int userId)
     {

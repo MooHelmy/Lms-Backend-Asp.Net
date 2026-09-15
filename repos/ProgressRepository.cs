@@ -1,7 +1,7 @@
 using LMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-public class ProgressRepository(DbContext context) : GenericRepository<LessonProgress>(context), IProgressRepository
+public class ProgressRepository(ApplicationDbContext context) : GenericRepository<LessonProgress>(context), IProgressRepository
 {
     public async Task<int> GetCompletedLessonsCountAsync(int studentId, int courseId)
     {

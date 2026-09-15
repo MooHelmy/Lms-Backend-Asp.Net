@@ -1,7 +1,7 @@
 using LMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-public class QuestionRepository(DbContext context) : GenericRepository<Question>(context), IQuestionRepository
+public class QuestionRepository(ApplicationDbContext context) : GenericRepository<Question>(context), IQuestionRepository
 {
     public async Task<IEnumerable<Question>> GetQuestionsByExamAsync(int examId)
     {

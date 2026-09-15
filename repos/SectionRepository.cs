@@ -1,7 +1,7 @@
 using LMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-public class SectionRepository(DbContext context) : GenericRepository<Section>(context), ISectionRepository
+public class SectionRepository(ApplicationDbContext context) : GenericRepository<Section>(context), ISectionRepository
 {
     public async Task<int> GetMaxOrderAsync(int courseId)
     {

@@ -1,7 +1,7 @@
 using LMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-public class ReviewRepository(DbContext context) : GenericRepository<Review>(context), IReviewRepository
+public class ReviewRepository(ApplicationDbContext context) : GenericRepository<Review>(context), IReviewRepository
 {
     public async Task<double> GetAverageRatingAsync(int courseId)
     {
