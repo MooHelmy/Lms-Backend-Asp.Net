@@ -1,0 +1,9 @@
+D:\.Net\DotNet_projects\LMs\obj\Debug\net10.0\LMs.csproj.AssemblyReference.cache
+D:\.Net\DotNet_projects\LMs\obj\Debug\net10.0\rpswa.dswa.cache.json
+D:\.Net\DotNet_projects\LMs\obj\Debug\net10.0\LMs.GeneratedMSBuildEditorConfig.editorconfig
+D:\.Net\DotNet_projects\LMs\obj\Debug\net10.0\LMs.AssemblyInfoInputs.cache
+D:\.Net\DotNet_projects\LMs\obj\Debug\net10.0\LMs.AssemblyInfo.cs
+D:\.Net\DotNet_projects\LMs\obj\Debug\net10.0\LMs.csproj.CoreCompileInputs.cache
+D:\.Net\DotNet_projects\LMs\obj\Debug\net10.0\LMs.MvcApplicationPartsAssemblyInfo.cs
+D:\.Net\DotNet_projects\LMs\obj\Debug\net10.0\LMs.MvcApplicationPartsAssemblyInfo.cache
+D:\.Net\DotNet_projects\LMs\obj\Debug\net10.0\LMs.sourcelink.json

@@ -5,4 +5,5 @@ public class RegisterDto
     public string Password { get; set; } = string.Empty;
     public string StreetName { get; set; } = string.Empty;
     public string City { get; set; } = string.Empty;
+
 }
